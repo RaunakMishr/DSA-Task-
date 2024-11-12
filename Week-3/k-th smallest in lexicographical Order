@@ -1,0 +1,30 @@
+class Solution {
+    public int findKthNumber(int n, int k) {
+        int currPre = 1;
+        k--;
+        while (k > 0) {
+            int count = count(currPre, n);
+            if (k >= count) {
+                currPre++; 
+                k -= count;
+            } else {
+                currPre *= 10;  
+                k--;
+            }
+        }
+        
+        return currPre;
+    }
+
+    private int count(int prefix, int n) {
+        long firstNum = prefix, nextNum = prefix + 1;
+        int totalCount = 0;
+        while (firstNum <= n) {
+            totalCount += Math.min(n + 1, nextNum) - firstNum;
+            firstNum *= 10;
+            nextNum *= 10;
+        }
+
+        return totalCount;
+    }
+}
