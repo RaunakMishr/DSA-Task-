@@ -1,0 +1,25 @@
+class Solution {
+    public List<Integer> diffWaysToCompute(String expression) {
+        List<Integer> result = new ArrayList<Integer>();
+        for(int i = 0; i < expression.length(); i++){
+            char curr = expression.charAt(i);
+            if(curr == '-' || curr == '+'|| curr == '*'){
+                String left = expression.substring(0,i);
+                String right = expression.substring(i+1);
+                
+                List<Integer> leftCall = diffWaysToCompute(left);
+                List<Integer> rightCall = diffWaysToCompute(right);
+                
+                for(int x : leftCall){
+                    for(int y : rightCall){
+                        if( curr == '+') result.add(x+y);
+                        else if(curr == '-') result.add(x-y);
+                        else result.add(x*y);
+                    }
+                }
+            }
+        }
+        if(result.size() == 0) result.add(Integer.valueOf(expression));
+        return result;
+    }
+}
